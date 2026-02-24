@@ -30,7 +30,7 @@
 
 | Data Type | Examples | Classification |
 |-----------|----------|----------------|
-| PII | Name, Email, Employee ID, Address | Sensitive |
+| Personally Identifiable Information (PII) | Name, Email, Employee ID, Address | Sensitive |
 | Authentication Data | Password hashes, MFA tokens | Critical |
 | Role Data | Permissions, group memberships | Internal |
 | Business Records | Reports, documents, transactions | Internal |
