@@ -208,4 +208,4 @@
 
 ### Updated Architecture Diagram
 
-![Secured Architecture Diagram](diagrams/architecture-secured.png)
+![Secured Architecture Diagram](architecture-secured.png)
