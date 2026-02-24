@@ -247,6 +247,8 @@
 
 ---
 
+## Task 6: Assumptions and Limitations
+
 ### Assumptions
 
 The following assumptions were made during the design and threat modeling process:
