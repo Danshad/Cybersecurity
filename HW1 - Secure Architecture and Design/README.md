@@ -114,3 +114,68 @@
 | HIGH | 9 | Credentials, PII, Financial Data, Keys |
 | MEDIUM | 2 | Business Data, Backups |
 | LOW | 1 | Business Logic |
+
+## Task 3: Threat Modeling
+
+### Threat Model Table
+
+| ID | Threat Description | Affected Component | STRIDE Category | Required Area | Impact | Risk Level |
+|----|-------------------|-------------------|-----------------|---------------|--------|------------|
+| T01 | Spoofing the Employee External Entity | Employee → Employee Portal | Spoofing | Authentication | Attacker impersonates legitimate employee to gain unauthorized access | HIGH |
+| T02 | Spoofing the Corporate IDP | Internal APIs → Corporate IDP | Spoofing | Authentication | Attacker impersonates identity provider to capture credentials | HIGH |
+| T03 | Elevation Using Impersonation | Internal APIs → Employee Portal | Elevation of Privilege | Authorization | API impersonates portal context to gain additional privileges | HIGH |
+| T04 | Weak Access Control for Application Database | Application Database | Information Disclosure | Data storage | Unauthorized reading of sensitive employee PII and financial data | HIGH |
+| T05 | Weak Access Control for Role Database | Role Database | Information Disclosure | Data storage | Unauthorized modification of permissions leading to privilege escalation | HIGH |
+| T06 | SQL Injection via Internal APIs | Internal APIs → Application Database | Tampering | API communication | Attacker executes malicious SQL queries to extract or modify data | HIGH |
+| T07 | Cross Site Scripting on Employee Portal | Employee Portal | Tampering | API communication | Attacker injects malicious scripts to steal session tokens | HIGH |
+| T08 | Data Flow Sniffing on REST API | Employee Portal → Internal APIs | Information Disclosure | API communication | Attacker intercepts API traffic to capture sensitive data | HIGH |
+| T09 | Potential Data Repudiation by Admin Portal | Admin Portal | Repudiation | Logging and monitoring | Admin denies making unauthorized changes with no audit evidence | MEDIUM |
+| T10 | Audit Logs Spoofing | Internal APIs → Audit Logs | Spoofing | Logging and monitoring | Attacker redirects logs to fake storage to hide malicious activity | HIGH |
+| T11 | Data Store Denies Writing Data | Audit Logs | Repudiation | Logging and monitoring | Logs claim they didn't receive events, breaking audit trail | MEDIUM |
+| T12 | Cross Site Scripting on Admin Portal | Admin Portal | Tampering | Administrative access | Attacker injects scripts to steal admin session or execute actions | HIGH |
+| T13 | Elevation Using Impersonation | Admin Portal → Internal APIs | Elevation of Privilege | Administrative access | Admin portal impersonates APIs to gain higher privileges | HIGH |
+| T14 | Spoofing Destination Data Store | Admin Portal → Role Database | Spoofing | Administrative access | Attacker redirects role updates to fake database | HIGH |
+| T15 | Potential Excessive Resource Consumption | Internal APIs → Application Database | Denial of Service | Data storage | Resource exhaustion attack makes database unavailable | MEDIUM |
+
+---
+
+### Threats by Required Area
+
+| Required Area | Threat IDs |
+|---------------|------------|
+| Authentication | T01, T02 |
+| Authorization | T03 |
+| Data storage | T04, T05, T15 |
+| API communication | T06, T07, T08 |
+| Logging and monitoring | T09, T10, T11 |
+| Administrative access | T12, T13, T14 |
+
+---
+
+### Risk Reasoning
+
+| ID | Risk Reasoning |
+|----|----------------|
+| T01 | **HIGH** - Internet-facing authentication point is primary attack vector; successful spoofing grants system access to attacker |
+| T02 | **HIGH** - Identity Provider is trusted third party; spoofing compromises all authentication across the entire system |
+| T03 | **HIGH** - Privilege escalation allows attacker to bypass access controls and reach sensitive data without authorization |
+| T04 | **HIGH** - Application Database contains PII and financial data; breach causes compliance violations (GDPR/CCPA) and reputational damage |
+| T05 | **HIGH** - Role Database controls all permissions; tampering leads to lateral movement and privilege escalation across system |
+| T06 | **HIGH** - SQL injection is common, high-impact attack that can lead to full data breach of all employee records |
+| T07 | **HIGH** - XSS on Employee Portal affects all employees; session theft leads to account takeover and data exposure |
+| T08 | **HIGH** - Unencrypted API traffic exposes sensitive data in transit to interception via man-in-the-middle attacks |
+| T09 | **MEDIUM** - Admin actions require accountability for compliance; lack of logs hinders incident investigation and forensics |
+| T10 | **HIGH** - If logs are spoofed, attacks go completely undetected and cannot be investigated or traced |
+| T11 | **MEDIUM** - Incomplete audit trail breaks non-repudiation requirement for compliance and legal proceedings |
+| T12 | **HIGH** - Admin portal compromise gives attacker full system control including user management and data access |
+| T13 | **HIGH** - Admin impersonating APIs can bypass business logic and security controls meant to prevent abuse |
+| T14 | **HIGH** - Role updates redirected to attacker-controlled database grants unauthorized permissions to attacker accounts |
+| T15 | **MEDIUM** - DoS affects availability but can be mitigated with rate limiting, auto-scaling, and resource monitoring |
+
+---
+
+### Threat Diagram
+
+![Threat Model Diagram](threat-model.png)
+
+*Annotated diagram showing threat locations across trust boundaries and components.*
