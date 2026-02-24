@@ -247,15 +247,3 @@
 
 ---
 
-### Residual Risk Matrix
-
-| Risk Category | Residual Level | Monitoring Approach |
-|---------------|----------------|---------------------|
-| Zero-day vulnerabilities | LOW | Vulnerability scanning, Security Information and Event Management alerts |
-| Insider threat | MEDIUM | Behavioral analytics, Audit log review, Separation of duties |
-| Social engineering | MEDIUM | Training, Phishing simulations, Multi-Factor Authentication |
-| Physical security | LOW | Data center certifications, Encryption at rest |
-| Supply chain | LOW | Dependency scanning, Vendor assessments |
-| Extreme Denial of Service | LOW | Cloud DDoS protection, Auto-scaling |
-
----
