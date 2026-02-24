@@ -247,3 +247,38 @@
 
 ---
 
+### Assumptions
+
+The following assumptions were made during the design and threat modeling process:
+
+| Assumption | Rationale |
+|------------|-----------|
+| Corporate Identity Provider is trusted and secure | The application delegates authentication to existing corporate infrastructure; any compromise of Identity Provider affects all connected systems |
+| Network perimeter firewalls are properly configured | Assumes baseline network security is in place before application-layer controls |
+| Employees have basic security awareness | Users are expected to recognize and report phishing attempts; training programs exist |
+| Physical security of data centers is handled by IT operations | Data center access controls, CCTV, and guards are outside application architecture scope |
+| Backup infrastructure is isolated from production | Backups stored separately to prevent ransomware from encrypting both production and backups |
+| Time synchronization is accurate across all systems | Audit logs rely on accurate timestamps for non-repudiation and incident investigation |
+| Third-party dependencies are regularly patched | Assumes vendor security updates are applied in a timely manner |
+| Regulatory compliance requirements are met | Design assumes GDPR/CCPA/SOX compliance is handled by broader organization controls |
+
+---
+
+### Limitations
+
+The following limitations apply to this security architecture:
+
+| Limitation | Impact | Compensation |
+|------------|--------|--------------|
+| Cannot prevent zero-day exploits | Unknown vulnerabilities may bypass controls | Defense-in-depth ensures multiple layers must be breached; Security Information and Event Management monitoring for anomalies |
+| Cannot control user behavior completely | Users may fall for phishing or share passwords | Multi-Factor Authentication reduces impact; Security awareness training |
+| Physical security out of scope | Data center breaches not addressed | Encryption at rest protects data even if physical media stolen |
+| Third-party dependencies not fully verifiable | Supply chain attacks possible | Dependency scanning; Vendor risk assessments |
+| Denial of service capacity limits | Extreme attacks may overwhelm resources | Auto-scaling; Cloud DDoS protection; Rate limiting |
+| Insider threat with valid credentials | Authorized users can abuse access | Least privilege; Audit logs; Behavioral analytics |
+| Social engineering of help desk | Attackers may reset passwords via social engineering | Multi-Factor Authentication; Help desk verification procedures |
+| Legacy system integrations | Older systems may not support modern security controls | API Gateway acts as security wrapper; Additional monitoring |
+| Mobile access not addressed | Design focuses on web access only | Assumes mobile access uses same APIs with identical controls |
+| Disaster recovery time objectives not defined | Recovery time assumptions not specified | Regular backup testing; Documented recovery procedures required |
+
+---
