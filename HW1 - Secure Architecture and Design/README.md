@@ -178,4 +178,34 @@
 
 ![Threat Model Diagram](threat-model.png)
 
-*Annotated diagram showing threat locations across trust boundaries and components.*
+## Task 4: Secure Architecture Design
+
+### Security Controls Justification
+
+| Control Category | Control Implemented | Justification |
+|------------------|---------------------|---------------|
+| Identity and Access Management | API Gateway with rate limiting, Multi-Factor Authentication for admin access, Certificate-based authentication for Identity Provider communication | API Gateway acts as central enforcement point for authentication before requests reach internal APIs, preventing unauthorized access. MFA for admin portal mitigates credential theft risks (T01, T02). Certificate-based authentication prevents Identity Provider spoofing attacks (T02). |
+| Network Segmentation | Web Application Firewall at perimeter, Bastion Host for privileged access, Five distinct security zones (Internet, Entry, Internal, Privileged, Data) | Web Application Firewall filters malicious traffic at entry point, blocking common attacks like cross-site scripting (T07, T12). Bastion host creates single controlled entry point for administrative access, reducing attack surface. Zones ensure compromise in one area (like Entry Zone) does not expose sensitive databases in Data Zone (T04, T05). |
+| Data Protection | TLS 1.3 encryption for all connections, Encrypted databases, Hardware Security Module for key management | Encryption in transit prevents man-in-the-middle attacks and data sniffing (T08). Encryption at rest protects sensitive PII and financial data from unauthorized access if storage is compromised (T04). Hardware Security Module ensures encryption keys never leave secure hardware and provides centralized key management. |
+| Secrets Management | Hardware Security Module for all encryption keys and API secrets | Secrets are never stored in configuration files or code repositories. Centralized key storage enables rotation, auditing, and strict access control. Prevents credential exposure and reduces risk of insider theft (T01, T02). |
+| Monitoring and Logging | Security Information and Event Management integration, Centralized immutable audit logs | Security Information and Event Management aggregates logs from all components for real-time alerting and threat detection. Immutable audit logs prevent tampering and provide non-repudiation for compliance (T09, T11). Log forwarding ensures redundancy if primary logs are compromised (T10). |
+| Secure Deployment Practices | Load balancer for availability, API Gateway rate limiting, Just-in-time privileged access | Load balancer distributes traffic and provides DDoS protection, ensuring availability (T15). Rate limiting prevents resource exhaustion and denial of service attacks (T15). Just-in-time access to admin portal via bastion host reduces persistent attack surface for privileged accounts (T12). |
+
+---
+
+### Defense-in-Depth Summary
+
+| Layer | Controls |
+|-------|----------|
+| Perimeter Defense | Web Application Firewall, Load Balancer, TLS 1.3 encryption |
+| Network Security | Zone segmentation (Internet, Entry, Internal, Privileged, Data), Bastion Host |
+| Application Security | API Gateway, Rate limiting, Input validation |
+| Data Security | Database encryption, Hardware Security Module, Encrypted connections |
+| Identity Security | Multi-Factor Authentication, Certificate-based authentication, API Keys |
+| Monitoring | Security Information and Event Management, Centralized immutable audit logs |
+
+---
+
+### Updated Architecture Diagram
+
+![Secured Architecture Diagram](diagrams/architecture-secured.png)
