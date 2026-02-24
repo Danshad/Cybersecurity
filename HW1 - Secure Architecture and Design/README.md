@@ -209,3 +209,53 @@
 ### Updated Architecture Diagram
 
 ![Secured Architecture Diagram](architecture-secured.png)
+
+## Task 5: Risk Treatment and Residual Risk
+
+### Risk Treatment Table
+
+| Threat ID | Threat Description | Risk Level | Treatment Strategy | Control Implemented | Rationale |
+|-----------|-------------------|------------|-------------------|---------------------|-----------|
+| T01 | Spoofing the Employee External Entity | HIGH | Mitigate | Multi-Factor Authentication + API Gateway + Web Application Firewall | Authentication controls prevent impersonation at entry point |
+| T02 | Spoofing the Corporate Identity Provider | HIGH | Mitigate | Certificate-based authentication + Mutual TLS | Ensures Identity Provider is authenticated before accepting responses |
+| T03 | Elevation Using Impersonation | HIGH | Mitigate | API Gateway with strict role validation | Prevents context switching between components |
+| T04 | Weak Access Control for Application Database | HIGH | Mitigate | Database encryption + Hardware Security Module + Access controls | Protects PII and financial data at rest and in access |
+| T05 | Weak Access Control for Role Database | HIGH | Mitigate | Database encryption + Hardware Security Module + Role-based access | Prevents unauthorized permission modifications |
+| T06 | SQL Injection via Internal APIs | HIGH | Mitigate | API Gateway input validation + Web Application Firewall + Parameterized queries | Blocks malicious SQL at multiple layers |
+| T07 | Cross Site Scripting on Employee Portal | HIGH | Mitigate | Web Application Firewall + Output encoding + Content Security Policy | Prevents script injection at perimeter and application level |
+| T08 | Data Flow Sniffing on REST API | HIGH | Mitigate | TLS 1.3 for all connections | Encrypts all data in transit |
+| T09 | Potential Data Repudiation by Admin Portal | MEDIUM | Mitigate | Immutable audit logs + Security Information and Event Management | Ensures all admin actions are recorded and cannot be denied |
+| T10 | Audit Logs Spoofing | HIGH | Mitigate | Write-once log storage + Security Information and Event Management monitoring | Prevents log redirection and tampering |
+| T11 | Data Store Denies Writing Data | MEDIUM | Mitigate | Redundant log forwarding + Security Information and Event Management alerts | Ensures log receipt is verified |
+| T12 | Cross Site Scripting on Admin Portal | HIGH | Mitigate | Web Application Firewall + Bastion host + Multi-Factor Authentication + Output encoding | Multiple layers protect privileged interface |
+| T13 | Elevation Using Impersonation | HIGH | Mitigate | API Gateway role validation + Just-in-time access | Prevents privilege escalation via admin routes |
+| T14 | Spoofing Destination Data Store | HIGH | Mitigate | Mutual TLS + Database authentication + Network segmentation | Ensures databases only accept connections from authenticated sources |
+| T15 | Potential Excessive Resource Consumption | MEDIUM | Mitigate | Load balancer + Rate limiting + Auto-scaling | Prevents denial of service through resource exhaustion |
+
+---
+
+### Residual Risk Explanation
+
+| Risk Category | Description | Why It Remains | Mitigation in Place | Residual Level |
+|---------------|-------------|----------------|---------------------|----------------|
+| Zero-Day Vulnerabilities | Unknown vulnerabilities in software components that have not been discovered or patched | No system can predict or prevent unknown attack vectors | Defense-in-depth with multiple layers, Security Information and Event Management monitoring, Regular patch management, Vulnerability scanning | LOW |
+| Insider Threat with Legitimate Credentials | Authorized employee or administrator abuses privileges to exfiltrate data or cause damage | Technical controls cannot prevent trusted users with valid credentials from performing authorized actions | Least privilege principle, Immutable audit logs, Separation of duties, Behavioral analytics, Anomaly detection | MEDIUM |
+| Social Engineering Attacks | Employees tricked into revealing credentials or granting access via phishing or manipulation | Human factors cannot be fully controlled by technical measures | Multi-Factor Authentication, Security awareness training, Phishing simulations | MEDIUM |
+| Physical Security Breach | Unauthorized physical access to servers, networking equipment, or backup media | Physical security is outside application architecture scope | Data center physical security (guards, biometrics, cameras), Encryption at rest, Hardware Security Module tamper-proof design | LOW |
+| Supply Chain Attack | Compromise of third-party dependencies, libraries, or vendor software | Modern applications rely on numerous components; verifying all code is impractical | Software composition analysis, Dependency scanning, Vendor security assessments, Least privilege for integrations | LOW |
+| Denial of Service Beyond Capacity | Extremely large-scale distributed denial of service exceeds provisioned limits | No system has infinite capacity; determined attackers can overwhelm any finite resource | Load balancer with DDoS protection, Auto-scaling groups, Cloud-based DDoS mitigation, Rate limiting | LOW |
+
+---
+
+### Residual Risk Matrix
+
+| Risk Category | Residual Level | Monitoring Approach |
+|---------------|----------------|---------------------|
+| Zero-day vulnerabilities | LOW | Vulnerability scanning, Security Information and Event Management alerts |
+| Insider threat | MEDIUM | Behavioral analytics, Audit log review, Separation of duties |
+| Social engineering | MEDIUM | Training, Phishing simulations, Multi-Factor Authentication |
+| Physical security | LOW | Data center certifications, Encryption at rest |
+| Supply chain | LOW | Dependency scanning, Vendor assessments |
+| Extreme Denial of Service | LOW | Cloud DDoS protection, Auto-scaling |
+
+---
