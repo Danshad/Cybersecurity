@@ -58,7 +58,7 @@
 
 ### Architecture Diagram
 
-![Architecture Diagram](enterprise%20architecture.png)
+![Architecture Diagram](enterprise%20arch.png)
 
 *Diagram shows all components, data flows (HTTPS, REST, SQL), and trust boundaries with clear zone separation.*
 
