@@ -1,6 +1,25 @@
 # Assignment 1 - Security Architecture and Design
 ## Internal Enterprise Application
 
+### System Overview
+
+The Internal Enterprise Application is a role-based web application providing employees with secure access to corporate resources through defense-in-depth architecture across multiple trust boundaries.
+
+**Core Components:**
+- Employee Portal (Frontend)
+- Internal APIs (Backend)
+- Application Database
+- Role Database
+- Corporate Identity Provider
+- Audit Logs
+- Admin Portal
+
+**Data Types:**
+- PII (employee names, emails, IDs)
+- Financial data (salary, bonuses)
+- Role permissions
+- Audit logs
+
 # Task 1: System Definition and Architecture
 ## Internal Enterprise Application
 
