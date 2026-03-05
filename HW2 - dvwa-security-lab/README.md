@@ -340,6 +340,10 @@ Since '1'='1' is always true, the query executes successfully and returns a resu
 At higher security levels, the application uses prepared statements and input validation to prevent SQL injection. User input is treated as data only, not executable code, so injected conditions like AND '1'='1' cannot alter the query logic. This blocks both regular and blind SQL injection attacks.
 
 
---
+### Security Level: Medium
+
+
+
+
 
 
