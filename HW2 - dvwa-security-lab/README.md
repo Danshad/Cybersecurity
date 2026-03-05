@@ -297,6 +297,23 @@ At Medium security, the application implemented a dropdown menu that restricts u
 Since the application restricts input to predefined values through the dropdown menu, it prevents malicious SQL payloads from being submitted. As a result, the attacker cannot alter the structure of the SQL query, and the injection attempt fails.
 
 
+### Security Level: High
+
+**Payload Used:** `1' OR '1'='1`
+
+**Result:** Failed - The payload was accepted as input but only returned the admin user record, not all users.
+
+**Screenshot:**
+![SQL Injection - High Security](screenshots/sqli-high.png)
+
+**Explanation of why it worked:**
+At High security, the application uses parameterized queries that treat user input as data only, not as executable code. The SQL query structure is fixed, and the payload is processed as a literal string value to compare against the user_id field, preventing any injection.
+
+**Explanation of why it failed at higher level:**
+At the High security level, DVWA applies stronger protections to user input. The application processes the input more carefully before using it in the SQL query, which prevents the injected condition from changing the query logic. Which is why the attack does not return all users and only a normal result is shown.
+
+
+
 --
 
 
