@@ -184,4 +184,27 @@ While High security blocks directory traversal sequences like `../` and `..//`, 
 
 
 
+## File Upload
+
+### Security Level: Low
+
+**Payload Used:**
+```php
+<?php
+system($_GET['cmd']);
+?>
+```
+
+**Result:** Success - The file was uploaded and can be accessed to execute system commands.
+
+**Screenshot:**
+![File Upload - Low Security](screenshots/file-upload-low.png)
+
+**Explanation of why it worked:**
+At Low security, the application performs no validation on uploaded files. It does not check the file type, file content, or file extension. Any file, including malicious PHP scripts, can be uploaded and then accessed directly via the web server. Since PHP files are executed by the server, this allows an attacker to run arbitrary system commands by simply sending parameters to the uploaded shell.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application implements file validation checks including file type verification, extension whitelisting, and content inspection. It may also rename uploaded files, store them outside the web root, or validate MIME types to prevent malicious file execution.
+
+
 
