@@ -150,3 +150,22 @@ The application takes the 'page' parameter and directly includes it in a PHP inc
 **Explanation of why it failed at higher level:**
 At higher security levels, the application implements input validation to block directory traversal sequences like `../` and restricts file inclusion to specific allowed files only. It may also use whitelisting to ensure only files from a predefined directory can be included.
 
+
+### Security Level: Medium
+
+**Payload Used:**`http://localhost:8080/vulnerabilities/fi/?page=..//..//..//..//etc/passwd`
+
+**Result:** Success - The contents of the /etc/passwd file were displayed by bypassing the input filter using double slashes.
+
+**Screenshot:**
+![File Inclusion - Medium Security](screenshots/file-inclusion-medium.png)
+
+**Explanation of why it worked:**
+At Low security, no validation was performed, allowing direct directory traversal. The application blindly included any file path provided.
+
+**Explanation of why it failed at higher level:**
+At Medium security, the application implements basic filtering that removes or blocks `../` patterns. However, this filter is incomplete and can be bypassed using `..//` which still achieves directory traversal. The filter fails to recursively sanitize the input or account for variations in path traversal syntax. At High security, more robust validation would be implemented to block all such bypass attempts.
+
+
+
+
