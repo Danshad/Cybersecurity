@@ -64,6 +64,7 @@ At High security, the application implements proper input validation using a whi
     </form>
   </body>
 </html>
+```
 
 **Result:** Success - The password was changed from "newpassword123" to "attacker123" without requiring the current password or any additional verification. The attack worked by simply getting the authenticated user to click a button on a malicious page.
 
