@@ -342,7 +342,19 @@ At higher security levels, the application uses prepared statements and input va
 
 ### Security Level: Medium
 
+**Payload Used:**
+`http://localhost:8080/vulnerabilities/sqli_blind/?id=1' AND '1'='1&Submit=Submit`
 
+**Result:** Success - The application returned "User ID exists in the database," confirming that blind SQL injection works by bypassing the dropdown menu via direct URL requests.
+
+**Screenshot:**
+![Blind SQL Injection - Medium Security](screenshots/blind-sqli-medium.png)
+
+**Explanation of why it worked:**
+At Medium security, the UI restriction (dropdown menu) is client-side only and does not protect against direct URL manipulation. The server-side code remains vulnerable.
+
+**Explanation of why it failed at higher level:**
+At High security, proper server-side input validation and prepared statements would be implemented to prevent injection regardless of how the request is sent.
 
 
 
