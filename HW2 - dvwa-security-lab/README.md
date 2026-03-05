@@ -16,3 +16,18 @@ The application passes user input directly to the system shell without any valid
 
 **Explanation of why it failed at higher level:**
 *This section will be completed after testing Medium and High security levels.*
+
+### Security Level: Medium
+
+**Payload Used:** `127.0.0.1 & ls`
+
+**Result:** Success - The ampersand (&) operator allowed command injection, executing both the ping and ls commands.
+
+**Screenshot:**
+![Command Injection - Medium Security](screenshots/command-injection-medium.png)
+
+**Explanation of why it worked:**
+At Medium security, the application filters out semicolons (;) but fails to block other command separators like the ampersand (&). The application uses a blacklist approach that is incomplete, blocking only certain characters while leaving others vulnerable. The ampersand tells the shell to run the first command and then execute the second command in the background, allowing the injection to succeed.
+
+**Explanation of why it failed at higher level:**
+*[To be filled after testing High security]*
