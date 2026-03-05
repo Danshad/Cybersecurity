@@ -167,5 +167,21 @@ At Low security, no validation was performed, allowing direct directory traversa
 At Medium security, the application implements basic filtering that removes or blocks `../` patterns. However, this filter is incomplete and can be bypassed using `..//` which still achieves directory traversal. The filter fails to recursively sanitize the input or account for variations in path traversal syntax. At High security, more robust validation would be implemented to block all such bypass attempts.
 
 
+### Security Level: High
+
+**Payload Used:**`http://localhost:8080/vulnerabilities/fi/?page=file:///etc/passwd`
+
+**Result:** Success - The contents of the /etc/passwd file were displayed using the file:// wrapper, bypassing the High security restrictions.
+
+**Screenshot:**
+![File Inclusion - High Security](screenshots/file-inclusion-high.png)
+
+**Explanation of why it worked:**
+At Low security, no validation was performed, allowing direct directory traversal. At Medium security, basic filtering was implemented but could be bypassed using techniques like `..//`.
+
+**Explanation of why it failed at higher level:**
+While High security blocks directory traversal sequences like `../` and `..//`, it fails to block PHP wrappers like `file://`. The application does not properly validate or restrict the use of stream wrappers, allowing an attacker to read system files using the file wrapper despite other protections being in place. This demonstrates that security controls must be comprehensive and consider all possible input vectors.
+
+
 
 
