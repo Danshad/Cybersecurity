@@ -254,4 +254,32 @@ Even higher security would combine multiple defenses: strict whitelist validatio
 
 
 
+## SQL Injection
+
+### Security Level: Low
+
+**Payload Used:** `1' OR '1'='1`
+
+**Result:** Success - All user records were displayed instead of just one, demonstrating a basic authentication bypass.
+
+**Screenshot:**
+![SQL Injection - Low Security](screenshots/sqli-low.png)
+
+**Explanation of why it worked:**
+The application takes user input and directly inserts it into an SQL query without any sanitization. The original query likely looks like:
+```sql
+SELECT first_name, last_name FROM users WHERE user_id = '$id'
+```
+When 1' OR '1'='1 is injected, the query becomes:
+```sql
+SELECT first_name, last_name FROM users WHERE user_id = '1' OR '1'='1'
+```
+
+Since '1'='1' is always true, the query returns all rows from the users table, bypassing the intended restriction to return only one specific user.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application uses parameterized queries (prepared statements) which separate SQL logic from data. User input is treated as data only, not executable code, making injection impossible regardless of the payload. Additionally, input validation and escaping functions may be implemented to further protect against malicious input.
+
+
+--
 
