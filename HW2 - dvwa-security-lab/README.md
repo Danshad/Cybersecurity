@@ -218,4 +218,16 @@ system($_GET['cmd']);
 ```
 Saved as shell.php.jpg
 
+**Result:** Success - The file was uploaded successfully by using a double extension to bypass file type validation.
+
+**Screenshot:**
+![File Upload - Medium Security](screenshots/file-upload-medium.png)
+
+**Explanation of why it worked:**
+At Low security, no validation was performed on uploaded files. Any file type was accepted without inspection.
+
+**Explanation of why it failed at higher level:**
+At Medium security, the application implements basic file validation such as checking file extensions. However, it only checks the first extension or uses a weak blacklist approach. By using a double extension like .php.jpg, the application may only check the last extension (.jpg) and incorrectly assume the file is a safe image, while the server still executes it as a PHP file due to the .php extension being recognized first. This bypass demonstrates that extension-based validation alone is insufficient without proper file content inspection and server configuration to prevent script execution in upload directories.
+
+
 
