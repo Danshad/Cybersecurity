@@ -1,2 +1,2 @@
-## DVWA Lab Report
+## DVWA Security Report
 
