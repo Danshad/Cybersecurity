@@ -283,9 +283,9 @@ At higher security levels, the application uses parameterized queries (prepared 
 
 ### Security Level: Medium
 
-**Payload Used:** Not applicable - The application changed the input method from a text field to a dropdown menu with predefined values.
+**Payload Used:** `1' OR '1'='1`
 
-**Result:** Failed - The application replaced the user input field with a dropdown menu, preventing manual injection. Only predefined user IDs (1-5) can be selected, and each returns only its corresponding user record.
+**Result:** The application replaced the user input field with a dropdown menu, preventing manual injection. Only predefined user IDs (1-5) can be selected, and each returns only its corresponding user record.
 
 **Screenshot:**
 ![SQL Injection - Medium Security](screenshots/sqli-medium.png)
