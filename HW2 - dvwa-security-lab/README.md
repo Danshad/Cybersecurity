@@ -357,5 +357,22 @@ At Medium security, the UI restriction (dropdown menu) is client-side only and d
 At High security, proper server-side input validation and prepared statements would be implemented to prevent injection regardless of how the request is sent.
 
 
+### Security Level: High
 
+**Payload Used:** `1 AND SLEEP(5)`
+
+**Result:** Success - The application returned "User ID exists in the database" after a significant delay (approximately 5 seconds), confirming that time-based blind SQL injection works.
+
+**Screenshot:**
+![Blind SQL Injection - High Security](screenshots/blind-sqli-high.png)
+
+**Explanation of why it worked:**
+At High security, the application may implement some protections but remains vulnerable to time-based blind SQL injection. The SLEEP(5) command is executed as part of the query, causing a delay before the response is returned. Since the application still displays a success message after the delay, it confirms that the injected SQL was executed.
+
+**Explanation of why it failed at higher level:**
+Secure implementations validate and sanitize user inputs before using them in database queries. Proper defenses such as parameterized queries, strict input validation, and prepared statements treat user input as data only, not executable code. This prevents malicious SQL commands like SLEEP() from being executed, eliminating time-based blind SQL injection attacks.
+
+
+
+---
 
