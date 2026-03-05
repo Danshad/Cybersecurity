@@ -314,6 +314,32 @@ At the High security level, DVWA applies stronger protections to user input. The
 
 
 
+## SQL Injection (Blind)
+
+### Security Level: Low
+
+**Payload Used:** `1' AND '1'='1`
+
+**Result:** Success - The application returned "User ID exists in the database," confirming that the injection works and the condition evaluated to true.
+
+**Screenshot:**
+![Blind SQL Injection - Low Security](screenshots/blind-sqli-low.png)
+
+**Explanation of why it worked:**
+The application takes user input and directly inserts it into an SQL query without any sanitization. The original query likely looks like:
+```sql
+SELECT user_id FROM users WHERE user_id = '$id'
+```
+When 1' AND '1'='1 is injected, the query becomes:
+```sql
+SELECT user_id FROM users WHERE user_id = '1' AND '1'='1'
+```
+Since '1'='1' is always true, the query executes successfully and returns a result if user ID 1 exists. The application then displays "User ID exists" based on whether any rows were returned, allowing an attacker to infer information through boolean conditions.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application uses prepared statements and input validation to prevent SQL injection. User input is treated as data only, not executable code, so injected conditions like AND '1'='1' cannot alter the query logic. This blocks both regular and blind SQL injection attacks.
+
+
 --
 
 
