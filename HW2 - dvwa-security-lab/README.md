@@ -76,3 +76,31 @@ The application accepts password changes via GET requests with all parameters in
 
 **Explanation of why it failed at higher level:**
 At higher security levels, the application implements anti-CSRF tokens that must accompany state-changing requests. These tokens are unique per session and validated by the server, making it impossible for an attacker to forge a valid request without knowing the current token. Additionally, the application may require current password verification or switch to using POST requests for sensitive operations, further protecting against CSRF attacks.
+
+
+### Security Level: Medium
+
+**Payload Used:**
+```html
+<html>
+  <body>
+    <form action="http://localhost:8080/vulnerabilities/csrf/" method="GET">
+      <input type="hidden" name="password_new" value="mediumtest123" />
+      <input type="hidden" name="password_conf" value="mediumtest123" />
+      <input type="hidden" name="Change" value="Change" />
+      <input type="submit" value="Click me!" />
+    </form>
+  </body>
+</html>
+```
+
+**Result:** Failed - The request was rejected with the message "That request didn't look correct."
+
+**Screenshot:**
+![CSRF - Medium Security](screenshots/csrf-medium.png)
+
+**Explanation of why it worked:**
+At Low security, the application accepts password changes via GET requests without any validation of where the request originated. It does not implement anti-CSRF tokens or require the current password, allowing any malicious site to forge requests as long as the user is authenticated. The server blindly trusts the request because the user's session cookie is automatically included by the browser.
+
+**Explanation of why it failed at higher level:**
+At Medium security, the application validates the HTTP Referer header to ensure the request originated from the same domain. When the malicious HTML file is opened locally, it sends no Referer header or one that doesn't match localhost, causing the server to reject the request as suspicious.
