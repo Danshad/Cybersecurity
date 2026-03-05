@@ -281,5 +281,22 @@ Since '1'='1' is always true, the query returns all rows from the users table, b
 At higher security levels, the application uses parameterized queries (prepared statements) which separate SQL logic from data. User input is treated as data only, not executable code, making injection impossible regardless of the payload. Additionally, input validation and escaping functions may be implemented to further protect against malicious input.
 
 
+### Security Level: Medium
+
+**Payload Used:** Not applicable - The application changed the input method from a text field to a dropdown menu with predefined values.
+
+**Result:** Failed - The application replaced the user input field with a dropdown menu, preventing manual injection. Only predefined user IDs (1-5) can be selected, and each returns only its corresponding user record.
+
+**Screenshot:**
+![SQL Injection - Medium Security](screenshots/sqli-medium.png)
+
+**Explanation of why it worked:**
+At Medium security, the application implemented a dropdown menu that restricts user input to predefined values. This eliminates the attack surface by preventing arbitrary input from being submitted. In this implementation it effectively blocks the attack by removing the ability to inject malicious SQL syntax. 
+
+**Explanation of why it failed at higher level:**
+Since the application restricts input to predefined values through the dropdown menu, it prevents malicious SQL payloads from being submitted. As a result, the attacker cannot alter the structure of the SQL query, and the injection attempt fails.
+
+
 --
+
 
