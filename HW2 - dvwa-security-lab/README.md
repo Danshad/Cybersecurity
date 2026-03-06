@@ -480,17 +480,12 @@ At higher security levels, the application implements more comprehensive input s
 
 **Result:** Failed - The page displayed the payload as plain text without executing any JavaScript. The HTML entities were rendered literally rather than interpreted as code.
 
-**Screenshot 1:**
-![DOM XSS - High Security - HTML Entities](screenshots/dom-xss-high-entities.png)
-
----
-
 **Payload Used 2:**`http://localhost:8080/vulnerabilities/xss_d/?default=<body onload=alert('XSS')>`
 
 **Result:** Failed - The page remained unchanged and no alert box appeared, indicating the payload was properly sanitized or encoded.
 
-**Screenshot 2:**
-![DOM XSS - High Security - Body Tag](screenshots/dom-xss-high-body.png)
+**Screenshot:**
+![DOM XSS - High Security - Body Tag](screenshots/dom-xss-high.png)
 
 **Explanation of why it worked:**
 At Low security, any payload including script tags worked. At Medium security, script tags were blocked but image tags with onerror events bypassed the filters.
