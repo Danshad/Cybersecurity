@@ -555,8 +555,29 @@ At High security, the application implements output encoding for script tags, co
 
 
 
-------
+## Stored Cross Site Scripting (XSS)
 
+### Security Level: Low
+
+**Payload Used:**
+- Name: `test`
+- Message: `<script>alert('XSS')</script>`
+
+**Result:** Success - An alert box popped up immediately after submission, and the script is now stored in the guestbook. Every time any user visits the page, the script will execute automatically.
+
+**Screenshot:**
+![Stored XSS - Low Security](screenshots/stored-xss-low.png)
+
+------------------
+
+**Screenshot 2:**
+![Stored XSS - Low Security](screenshots/stored-xss-low2.png)
+
+**Explanation of why it worked:**
+The application takes user input from the Name and Message fields and stores it in the database without any validation, sanitization, or output encoding. When the guestbook page is loaded, the application retrieves all stored entries and displays them directly in the page HTML. Since the input contains a `<script>` tag, it is inserted into the DOM and executed by the browser. The server does not distinguish between safe text and executable code, and because the payload is stored in the database, it affects all users who visit the page, not just the original submitter.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application validates and sanitizes user input before storing it in the database, and applies output encoding when displaying guestbook entries. This ensures that any injected scripts are rendered as harmless text rather than executable code, protecting all users who view the page.
 
 
 
