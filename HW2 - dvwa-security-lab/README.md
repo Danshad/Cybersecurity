@@ -730,7 +730,25 @@ Since all validation happens on the client-side, an attacker can bypass it by ex
 In a secure implementation, validation and token verification are handled server-side. Even if an attacker manipulates client-side JavaScript or DOM elements, the server independently validates the request and rejects any submissions that do not meet the required criteria, preventing client-side bypass attacks.
 
 
---------
+### Security Level: Medium
+
+**Payload Used:** Executed in browser console:
+```javascript
+document.getElementById("phrase").value = "success";
+document.getElementById("token").value = "XXsuccessXX".split('').reverse().join('');
+document.forms[0].submit();
+```
+
+**Result:** Success - The form was submitted with the word "success" and the correctly generated token, displaying the "Well done!" message.
+
+**Screenshot:**
+![JavaScript Attacks - Medium Security](screenshots/java-attacks-medium.png)
+
+**Explanation of why it worked:**
+At Low security, the application relied on simple client-side JavaScript that could be easily manipulated. At Medium security, the application introduced token generation logic that reverses a string composed of "XX" + phrase + "XX". By analyzing the JavaScript source code, we can understand this algorithm and generate the correct token programmatically in the console before submitting the form.
+
+
+----------
 
 
 
