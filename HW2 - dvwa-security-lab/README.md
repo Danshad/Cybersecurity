@@ -753,8 +753,6 @@ At higher security levels, comprehensive input validation and output encoding ar
 Name: test
 Message: javascript:alert('XSS')
 
-text
-
 ---
 
 **Payload Used 2:**
@@ -766,8 +764,6 @@ text
 **Output:**
 Name: test
 Message:
-
-text
 
 **Screenshot:**
 ![Stored XSS - High Security](screenshots/stored-xss-high.png)
