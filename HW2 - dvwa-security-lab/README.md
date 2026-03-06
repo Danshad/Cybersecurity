@@ -418,7 +418,31 @@ At Low security, session IDs were simple sequential numbers. At Medium security,
 At Medium security, the session IDs are generated using time-based values which are still predictable within a certain timeframe. An attacker who knows roughly when a session was created could brute-force a small range of possible values. At High security, truly random cryptographic session IDs would be implemented to prevent any form of prediction or brute-forcing.
 
 
+### Security Level: High
+
+**Payload Used:** Analyzed session ID generation pattern by clicking the "Generate" button multiple times.
+
+**Result:** The session ID remained constant (1772799620) across all clicks, indicating that the application now properly ties the session ID to the user's browser session and does not regenerate it unnecessarily.
+
+**Screenshot:**
+![Weak Session IDs - High Security](screenshots/weak-session-ids-high.png)
+
+**Observations:**
+- Click 1: `dvwaSession = 1772799620`
+- Click 2: `dvwaSession = 1772799620`
+- Click 3: `dvwaSession = 1772799620`
+
+**Explanation of why it worked:**
+At Low security, session IDs were simple sequential numbers. At Medium security, they improved to time-based values but remained predictable.
+
+**Explanation of why it failed at higher level:**
+At High security, the application properly manages session identifiers by maintaining a single, consistent session ID throughout the user's browser session. The "Generate" button no longer creates new session IDs, preventing session fixation attacks where an attacker could force a user to use a known session ID. Additionally, the initial session ID is likely generated using strong randomness when the session is first created.
+
+
+
 ----
+
+
 
 
 
