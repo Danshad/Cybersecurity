@@ -69,7 +69,32 @@ At High security, the application uses prepared statements (parameterized querie
 
 
 
-----
+## Insecure CAPTCHA
+
+### Security Level: Low
+
+**Payload Used:** Modified the hidden form parameter `step` from value `1` to `2`
+
+**Method:** 
+1. Opened the password change form with CAPTCHA
+2. Used browser Developer Tools (F12) to inspect the HTML
+3. Located the hidden input field: `<input type="hidden" name="step" value="1">`
+4. Edited the value to: `<input type="hidden" name="step" value="2">`
+5. Submitted the form without solving the CAPTCHA
+
+**Result:** Success - The password was changed successfully without completing the CAPTCHA challenge.
+
+**Screenshot:**
+![Insecure CAPTCHA - Low Security](screenshots/insecure-captcha-low.png)
+
+**Explanation of why it worked:**
+The application uses a multi-step process for password changes, with a hidden "step" parameter tracking the progress. At step 1, the CAPTCHA is validated. At step 2, the password is actually changed. By manually modifying the step parameter from 1 to 2, we bypass the CAPTCHA validation entirely. The application fails to verify that the CAPTCHA was actually completed before allowing the password change, assuming that reaching step 2 implies successful CAPTCHA verification.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application properly validates the CAPTCHA on the server side before processing any password change request. The step parameter is securely managed server-side rather than relying on client-side hidden fields. Additionally, the server maintains session state to ensure that CAPTCHA verification actually occurred before allowing the password to be changed, preventing step manipulation bypass attacks.
+
+
+-----
 
 -------------
 
