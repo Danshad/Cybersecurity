@@ -440,7 +440,19 @@ At High security, the application properly manages session identifiers by mainta
 
 
 
-----
+## DOM Based Cross Site Scripting (XSS)
+
+### Security Level: Low
+
+**Payload Used:**`http://localhost:8080/vulnerabilities/xss_d/?default=<script>alert('XSS')</script>`
+
+**Result:** Success - An alert box popped up displaying "XSS", confirming that JavaScript code was executed in the browser.
+
+**Screenshot:**
+![DOM XSS - Low Security](screenshots/dom-xss-low.png)
+
+**Explanation of why it worked:**
+The application takes the `default` parameter from the URL and injects it directly into the DOM using client-side JavaScript without any validation or sanitization. Since the content is inserted into the page and interpreted as HTML, the `<script>` tag is executed by the browser. This is a DOM-based XSS vulnerability because the attack payload modifies the DOM environment in the victim's browser, and the malicious script executes as a result of DOM manipulation rather than server-side reflection.
 
 
 
