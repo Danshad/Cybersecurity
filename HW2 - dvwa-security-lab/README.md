@@ -458,7 +458,23 @@ The application takes the `default` parameter from the URL and injects it direct
 At higher security levels, the application sanitizes user input before inserting it into the DOM. Dangerous characters and script tags are filtered or encoded, preventing injected JavaScript from executing in the browser.
 
 
----
+### Security Level: Medium
+
+**Payload Used:**`http://localhost:8080/vulnerabilities/xss_d/?default=<img src=x onerror=alert('XSS')>`
+
+**Result:** Success - An alert box popped up displaying "XSS", confirming that JavaScript code was executed using an image tag bypass technique.
+
+**Screenshot:**
+![DOM XSS - Medium Security](screenshots/dom-xss-medium.png)
+
+**Explanation of why it worked:**
+At Low security, any payload including script tags worked. At Medium security, the application likely filters out `<script>` tags specifically, but fails to block other HTML tags that can execute JavaScript, such as `<img>` with `onerror` events. The image tag attempts to load an invalid image source (`x`), which triggers the `onerror` event and executes the JavaScript code.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application implements more comprehensive input sanitization that encodes or removes all dangerous HTML tags and JavaScript events, not just script tags. This prevents any form of injected JavaScript from executing regardless of the vector used.
+
+
+-----
 
 
 
