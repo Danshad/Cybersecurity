@@ -474,7 +474,33 @@ At Low security, any payload including script tags worked. At Medium security, t
 At higher security levels, the application implements more comprehensive input sanitization that encodes or removes all dangerous HTML tags and JavaScript events, not just script tags. This prevents any form of injected JavaScript from executing regardless of the vector used.
 
 
------
+### Security Level: High
+
+**Payload Used 1:**`http://localhost:8080/vulnerabilities/xss_d/?default=&lt;img src=x onerror=alert('XSS')>`
+
+**Result:** Failed - The page displayed the payload as plain text without executing any JavaScript. The HTML entities were rendered literally rather than interpreted as code.
+
+**Screenshot 1:**
+![DOM XSS - High Security - HTML Entities](screenshots/dom-xss-high-entities.png)
+
+---
+
+**Payload Used 2:**`http://localhost:8080/vulnerabilities/xss_d/?default=<body onload=alert('XSS')>`
+
+**Result:** Failed - The page remained unchanged and no alert box appeared, indicating the payload was properly sanitized or encoded.
+
+**Screenshot 2:**
+![DOM XSS - High Security - Body Tag](screenshots/dom-xss-high-body.png)
+
+**Explanation of why it worked:**
+At Low security, any payload including script tags worked. At Medium security, script tags were blocked but image tags with onerror events bypassed the filters.
+
+**Explanation of why it failed at higher level:**
+At High security, the application implements proper output encoding and input sanitization. All dangerous characters and HTML tags are encoded or stripped before being inserted into the DOM. The HTML entities payload was rendered as literal text rather than interpreted as HTML, while the body tag payload was completely blocked. This prevents any form of injected JavaScript from executing, regardless of the vector used.
+
+
+
+--------
 
 
 
