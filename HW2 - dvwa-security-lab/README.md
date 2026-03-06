@@ -513,7 +513,23 @@ The application takes user input from the "name" parameter and directly reflects
 At higher security levels, the application sanitizes user input through output encoding before reflecting it back to the browser. This converts dangerous characters into harmless HTML entities, preventing the browser from interpreting injected scripts as executable code.
 
 
------
+### Security Level: Medium
+
+**Payload Used:**`http://localhost:8080/vulnerabilities/xss_r/?name=<ScRiPt>alert('XSS')</ScRiPt>`
+
+**Result:** Success - An alert box popped up displaying "XSS", confirming that case manipulation bypassed the input filter.
+
+**Screenshot:**
+![Reflected XSS - Medium Security](screenshots/reflected-xss-medium.png)
+
+**Explanation of why it worked:**
+At Low security, any payload including script tags worked. At Medium security, the application likely implements a blacklist filter that removes or blocks lowercase `<script>` tags. However, the filter is case-sensitive and fails to block mixed-case variations like `<ScRiPt>`, allowing the JavaScript to execute.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application implements more robust input validation that is case-insensitive or uses proper output encoding. This would block all variations of script tags regardless of case, as well as other XSS vectors.
+
+
+------
 
 
 
