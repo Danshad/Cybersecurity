@@ -716,7 +716,7 @@ document.forms[0].submit();
 **Result:** Success - The form was submitted with the word "success" and the message "Well done!" was displayed.
 
 **Screenshot:**
-![JavaScript Attacks - Low Security](screenshots/js-attacks-low.png)
+![JavaScript Attacks - Low Security](screenshots/java-attacks-low.png)
 
 **Explanation of why it worked:**
 The application relies on client-side JavaScript for validation and token generation. By using the browser console, we can directly manipulate DOM elements and call JavaScript functions. The code:
