@@ -682,7 +682,27 @@ At Low security, the CSP policy allowed loading and executing scripts from vario
 At Medium security, the Content Security Policy is configured to be more restrictive. While the script path may be displayed or included in the page, the CSP headers likely prevent external scripts from executing by restricting script sources to trusted domains only or by blocking inline script execution. Additionally, the browser enforces these CSP rules, blocking any JavaScript from untrusted sources regardless of whether the file path is accessible.
 
 
------
+### Security Level: High
+
+**Understanding the Vulnerability:**
+The page makes a JSONP call to `../../vulnerabilities/csp/source/jsonp.php` which takes a callback parameter. The endpoint returns data in the format: `callback({"answer":"15"})`. This allows an attacker to control the function name that gets executed.
+
+**Payload Used:** `http://localhost:8080/vulnerabilities/csp/source/jsonp.php?callback=alert(1)`
+
+**Result:** The JSONP endpoint can be manipulated to execute arbitrary JavaScript by controlling the callback parameter.
+
+**Screenshot:**
+![CSP Bypass - High Security](screenshots/csp-bypass-high.png)
+
+**Explanation of why it worked:**
+At Low security, CSP was permissive allowing external scripts. At Medium security, external scripts were blocked but the path was accepted.
+
+**Explanation of why it failed at higher level:**
+At High security, the application uses a JSONP endpoint that dynamically executes the callback function name provided by the user. This creates a DOM-based XSS vulnerability where an attacker can control the function name to execute arbitrary JavaScript. The CSP policy may be bypassed because the script is loaded from the same origin and the callback parameter is not properly sanitized, allowing injection of malicious code.
+
+
+
+---------
 
 
 
