@@ -599,7 +599,46 @@ At Low security, no filtering was applied to user input. At Medium security, the
 At higher security levels, comprehensive input validation and output encoding are implemented. All dangerous HTML tags and event handlers are stripped or escaped before storage, preventing any injected JavaScript from executing.
 
 
-----
+### Security Level: High
+
+**Payload Used 1:**
+- Name: `test`
+- Message: `javascript:alert('XSS')`
+
+**Result:** Failed - The message was stored but with escaped characters: `javascript:alert(\'XSS\')`. The backslashes indicate output encoding was applied, preventing execution.
+
+**Output:**
+Name: test
+Message: javascript:alert('XSS')
+
+text
+
+---
+
+**Payload Used 2:**
+- Name: `test`
+- Message: `<svg onload=alert('XSS')>`
+
+**Result:** Failed - The message field appeared empty after submission, indicating the payload was completely filtered or stripped by the application.
+
+**Output:**
+Name: test
+Message:
+
+text
+
+**Screenshot:**
+![Stored XSS - High Security](screenshots/stored-xss-high.png)
+
+**Explanation of why it worked:**
+At Low security, no filtering was applied. At Medium security, some tags were blocked but others bypassed the filters.
+
+**Explanation of why it failed at higher level:**
+At High security, the application implements comprehensive input validation and output encoding. The `javascript:` payload was escaped with backslashes, converting it to harmless text. The `<svg>` tag was completely stripped from the input. These defenses ensure that any injected JavaScript is either encoded or removed before being stored or displayed, preventing execution in the browser regardless of the payload type.
+
+
+
+--------
 
 
 
