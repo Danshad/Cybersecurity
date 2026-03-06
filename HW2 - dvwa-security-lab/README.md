@@ -580,6 +580,27 @@ The application takes user input from the Name and Message fields and stores it 
 At higher security levels, the application validates and sanitizes user input before storing it in the database, and applies output encoding when displaying guestbook entries. This ensures that any injected scripts are rendered as harmless text rather than executable code, protecting all users who view the page.
 
 
+### Security Level: Medium
+
+**Payload Used:**
+- Name: `test`
+- Message: `<img src=x onerror=alert('XSS')>`
+
+**Result:**
+After submission, the message was stored in the guestbook. Upon page reload, a JavaScript alert box appeared automatically, confirming successful execution of the injected payload.
+
+**Screenshot:**
+![Stored XSS - Medium Security](screenshots/stored-xss-medium.png)
+
+**Explanation of why it worked:**
+At Low security, no filtering was applied to user input. At Medium security, the application blocks `<script>` tags but fails to sanitize other HTML elements. The `<img>` tag with an `onerror` event handler bypasses the filter and executes JavaScript when the image fails to load.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, comprehensive input validation and output encoding are implemented. All dangerous HTML tags and event handlers are stripped or escaped before storage, preventing any injected JavaScript from executing.
+
+
+----
+
 
 
 
