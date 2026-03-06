@@ -495,7 +495,25 @@ At High security, the application implements proper output encoding and input sa
 
 
 
---------
+## Reflected Cross Site Scripting (XSS)
+
+### Security Level: Low
+
+**Payload Used:** `<script>alert('XSS')</script>`
+
+**Result:** Success - An alert box popped up displaying "XSS", confirming that JavaScript code was executed in the browser.
+
+**Screenshot:**
+![Reflected XSS - Low Security](screenshots/reflected-xss-low.png)
+
+**Explanation of why it worked:**
+The application takes user input from the "name" parameter and directly reflects it back in the page response without any validation, sanitization, or output encoding. When the input contains a `<script>` tag, it is inserted into the HTML and executed by the browser. The server does not distinguish between safe text and executable code, treating all user input as trusted content.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application sanitizes user input through output encoding before reflecting it back to the browser. This converts dangerous characters into harmless HTML entities, preventing the browser from interpreting injected scripts as executable code.
+
+
+-----
 
 
 
