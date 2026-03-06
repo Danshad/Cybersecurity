@@ -638,7 +638,30 @@ At High security, the application implements comprehensive input validation and 
 
 
 
---------
+## Content Security Policy (CSP) Bypass
+
+### Security Level: Low
+
+**Payload Used:** `../../hackable/uploads/csp.js`
+
+**Preparation:** First uploaded a malicious JavaScript file (`csp.js`) containing:
+```javascript
+alert('CSP Bypassed!');
+```
+
+**Result:** Success - The external script was loaded from the uploads directory and executed, bypassing any CSP restrictions.
+
+**Screenshot:**
+![CSP Bypass - Low Security](screenshots/csp-bypass-low.png)
+
+**Explanation of why it worked:**
+At Low security, the Content Security Policy is configured permissively, allowing scripts to be loaded from various sources including local file paths. Since the uploaded JavaScript file resides within the same domain, it falls under allowed sources. The application does not restrict which directories scripts can be loaded from, allowing an attacker to host malicious scripts in accessible locations like the uploads directory.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the CSP policy restricts script sources to trusted domains only and blocks loading scripts from arbitrary internal paths. Additionally, file upload validation prevents attackers from uploading executable scripts, and path traversal protections ensure uploaded files cannot be accessed as script sources.
+
+
+-----
 
 
 
