@@ -529,6 +529,32 @@ At Low security, any payload including script tags worked. At Medium security, t
 At higher security levels, the application implements more robust input validation that is case-insensitive or uses proper output encoding. This would block all variations of script tags regardless of case, as well as other XSS vectors.
 
 
+### Security Level: High
+
+**Payload Used 1:**`http://localhost:8080/vulnerabilities/xss_r/?name=%253Cscript%253Ealert(%27XSS%27)%253C/script%253E`
+
+**Result:** Failed - The payload was displayed as plain text `%3Cscript%3Ealert('XSS')%3C/script%3E` without executing, showing that script tags are properly encoded.
+
+**Output:**
+Hello %3Cscript%3Ealert('XSS')%3C/script%3E
+
+---
+
+**Payload Used 2:**`http://localhost:8080/vulnerabilities/xss_r/?name=%3Cimg%20src=x%20onerror=alert(%27XSS%27)%3E`
+
+**Result:** Success - An alert box popped up displaying "XSS", confirming that image tag payloads still execute at High security.
+
+**Screenshot:**
+![Reflected XSS - High Security](screenshots/reflected-xss-high.png)
+
+**Explanation of why it worked:**
+At Low security, any payload including script tags worked. At Medium security, case manipulation bypassed the script tag filter.
+
+**Explanation of why it failed at higher level:**
+At High security, the application implements output encoding for script tags, converting them into harmless text. However, the protection is incomplete as it fails to block other XSS vectors like image tags with onerror events. The `<img src=x onerror=alert('XSS')>` payload still executes because the application does not sanitize or encode HTML event attributes. Complete protection would require comprehensive output encoding for all dangerous HTML tags and JavaScript events, not just script tags.
+
+
+
 ------
 
 
