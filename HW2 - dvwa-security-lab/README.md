@@ -454,6 +454,13 @@ At High security, the application properly manages session identifiers by mainta
 **Explanation of why it worked:**
 The application takes the `default` parameter from the URL and injects it directly into the DOM using client-side JavaScript without any validation or sanitization. Since the content is inserted into the page and interpreted as HTML, the `<script>` tag is executed by the browser. This is a DOM-based XSS vulnerability because the attack payload modifies the DOM environment in the victim's browser, and the malicious script executes as a result of DOM manipulation rather than server-side reflection.
 
+**Explanation of why it failed at higher level:**
+At higher security levels, the application sanitizes user input before inserting it into the DOM. Dangerous characters and script tags are filtered or encoded, preventing injected JavaScript from executing in the browser.
+
+
+---
+
+
 
 
 
