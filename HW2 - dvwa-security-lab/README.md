@@ -1,5 +1,26 @@
 ## DVWA Security Report
 
+## Brute Force
+
+### Security Level: Low
+
+**Payload Used:**
+- Username: `admin`
+- Password: `password`
+
+**Result:** Success - Successfully logged in to the password protected area with default credentials.
+
+**Screenshot:**
+![Brute Force - Low Security](screenshots/brute-force-low.png)
+
+**Explanation of why it worked:**
+At Low security, the application uses default credentials (`admin:password`) and implements no protections against brute force attacks. There is no account lockout mechanism, no CAPTCHA, no rate limiting, and no delay between failed login attempts. This allows attackers to easily guess or brute force credentials without any restrictions.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application implements protections such as account lockout after multiple failed attempts, CAPTCHA verification, rate limiting, or increasing time delays between login attempts. These measures make brute force attacks impractical by preventing rapid-fire credential guessing and blocking automated tools.
+
+-------------
+
 ## Command Injection
 
 ### Security Level: Low
