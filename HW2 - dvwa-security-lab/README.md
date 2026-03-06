@@ -120,7 +120,23 @@ At Low security, only the step parameter needed manipulation. At Medium security
 At higher security levels, the application performs all CAPTCHA validation server-side without relying on client-side parameters that can be manipulated. The server maintains session state to track whether the CAPTCHA was actually completed, and any password change request without proper server-side CAPTCHA verification is rejected, regardless of what parameters are sent from the client.
 
 
------
+### Security Level: High
+
+**Payload Used:**
+- Added parameter: `g-recaptcha-response=hidd3n_valu3`
+- Modified User-Agent header to: `reCAPTCHA`
+- Submitted password fields with the change request
+
+**Result:** Success - The password was successfully changed without solving the CAPTCHA challenge.
+
+**Screenshot:**
+![Insecure CAPTCHA - High Security](screenshots/insecure-captcha-high.png)
+
+**Explanation of why it worked:**
+At Low security, the step parameter was manipulated. At Medium security, a passed_captcha parameter was added. At High security, the application checks for the presence of a `g-recaptcha-response` parameter and a specific User-Agent header. By understanding these validation checks, an attacker can include a dummy `g-recaptcha-response` value and set the User-Agent to `reCAPTCHA` to trick the server into thinking the CAPTCHA was completed. The server fails to actually verify the CAPTCHA response with Google's API and instead relies on these client-controllable values.
+
+**Explanation of why it failed at higher level:**
+At even higher security levels, the application properly validates the CAPTCHA response with Google's reCAPTCHA API server-side rather than trusting client-side parameters or headers. This prevents bypass attacks that rely on manipulating client-side values or spoofing headers, as the actual CAPTCHA verification happens externally and cannot be faked.
 
 -------------
 
