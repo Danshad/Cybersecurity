@@ -94,6 +94,32 @@ The application uses a multi-step process for password changes, with a hidden "s
 At higher security levels, the application properly validates the CAPTCHA on the server side before processing any password change request. The step parameter is securely managed server-side rather than relying on client-side hidden fields. Additionally, the server maintains session state to ensure that CAPTCHA verification actually occurred before allowing the password to be changed, preventing step manipulation bypass attacks.
 
 
+### Security Level: Medium
+
+**Payload Used:** Modified hidden form parameters:
+- Changed `step` value from `1` to `2`
+- Added a new hidden field: `<input type="hidden" name="passed_captcha" value="true">`
+
+**Method:**
+1. Opened the password change form with CAPTCHA
+2. Used browser Developer Tools (F12) to inspect the HTML
+3. Located the hidden input field: `<input type="hidden" name="step" value="1">`
+4. Edited the value to: `<input type="hidden" name="step" value="2">`
+5. Inserted a new line below it: `<input type="hidden" name="passed_captcha" value="true">`
+6. Submitted the form without solving the CAPTCHA
+
+**Result:** Success - The password was changed successfully without completing the CAPTCHA challenge.
+
+**Screenshot:**
+![Insecure CAPTCHA - Medium Security](screenshots/insecure-captcha-medium.png)
+
+**Explanation of why it worked:**
+At Low security, only the step parameter needed manipulation. At Medium security, the application added an additional check using a `passed_captcha` parameter. By inspecting the HTML and understanding the validation logic, both parameters can be manipulated client-side. The application checks for the presence and value of `passed_captcha` but fails to properly validate it server-side, allowing attackers to insert this field manually and bypass the CAPTCHA entirely.
+
+**Explanation of why it failed at higher level:**
+At higher security levels, the application performs all CAPTCHA validation server-side without relying on client-side parameters that can be manipulated. The server maintains session state to track whether the CAPTCHA was actually completed, and any password change request without proper server-side CAPTCHA verification is rejected, regardless of what parameters are sent from the client.
+
+
 -----
 
 -------------
