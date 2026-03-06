@@ -702,7 +702,35 @@ At High security, the application uses a JSONP endpoint that dynamically execute
 
 
 
----------
+## JavaScript Attacks
+
+### Security Level: Low
+
+**Payload Used:** Executed in browser console:
+```javascript
+document.getElementsByName("phrase")[0].value="success";
+generate_token();
+document.forms[0].submit();
+```
+
+**Result:** Success - The form was submitted with the word "success" and the message "Well done!" was displayed.
+
+**Screenshot:**
+![JavaScript Attacks - Low Security](screenshots/js-attacks-low.png)
+
+**Explanation of why it worked:**
+The application relies on client-side JavaScript for validation and token generation. By using the browser console, we can directly manipulate DOM elements and call JavaScript functions. The code:
+- Changes the hidden or protected input field value to "success"
+- Calls `generate_token()` to create a valid token (likely required for form submission)
+- Submits the form programmatically
+
+Since all validation happens on the client-side, an attacker can bypass it by executing custom JavaScript in the console.
+
+**Explanation of why it failed at higher level:**
+In a secure implementation, validation and token verification are handled server-side. Even if an attacker manipulates client-side JavaScript or DOM elements, the server independently validates the request and rejects any submissions that do not meet the required criteria, preventing client-side bypass attacks.
+
+
+--------
 
 
 
