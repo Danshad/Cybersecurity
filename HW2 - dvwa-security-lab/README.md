@@ -374,5 +374,25 @@ Secure implementations validate and sanitize user inputs before using them in da
 
 
 
----
+## Weak Session IDs
+
+### Security Level: Low
+
+**Payload Used:** Analyzed session ID generation pattern by clicking the "Generate" button multiple times.
+
+**Result:** The session IDs are generated as simple sequential numbers (1, 2, 3, ...), making them highly predictable and vulnerable to session hijacking.
+
+**Screenshot:**
+![Weak Session IDs - Low Security](screenshots/weak-session-ids-low.png)
+
+**Observations:**
+- Click 1: `dvwaSession = 1`
+- Click 2: `dvwaSession = 2`
+- Click 3: `dvwaSession = 3`
+
+**Explanation of why it worked:**
+At Low security, the application generates session IDs using a simple incrementing counter with no randomness or complexity. An attacker can easily predict future session IDs and potentially hijack active user sessions by guessing valid IDs. This lack of entropy makes session fixation and session prediction attacks trivial.
+
+**Explanation of why it failed at higher level:**
+*[To be filled after testing Medium and High security levels]*
 
