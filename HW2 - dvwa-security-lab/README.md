@@ -19,6 +19,33 @@ At Low security, the application uses default credentials (`admin:password`) and
 **Explanation of why it failed at higher level:**
 At higher security levels, the application implements protections such as account lockout after multiple failed attempts, CAPTCHA verification, rate limiting, or increasing time delays between login attempts. These measures make brute force attacks impractical by preventing rapid-fire credential guessing and blocking automated tools.
 
+
+### Security Level: Medium
+
+**Payload Used:** Multiple SQL injection payloads were tested:
+
+1. `admin' -- `
+2. `admin' #`
+3. `admin' OR '1'='1`
+4. `' OR '1'='1`
+5. `admin" OR "1"="1`
+6. `1 OR 1=1`
+7. `' UNION SELECT 1,2#`
+
+**Result:** Failed - All SQL injection attempts returned "Username and/or password incorrect." The application successfully blocked SQL injection attacks at Medium security.
+
+**Screenshot:**
+![Brute Force - Medium Security](screenshots/brute-force-medium.png)
+
+**Explanation of why it worked:**
+At Low security, the application was vulnerable to SQL injection and allowed login with default credentials. No protections were in place against brute force or injection attacks.
+
+**Explanation of why it failed at higher level:**
+At Medium security, the application implements input validation and likely uses parameterized queries or escaping functions like `mysqli_real_escape_string()` to prevent SQL injection. User input is sanitized before being used in database queries, treating it as data rather than executable code. This blocks all SQL injection attempts, even though other brute force protections may still be minimal.
+
+
+--
+
 -------------
 
 ## Command Injection
