@@ -661,6 +661,27 @@ At Low security, the Content Security Policy is configured permissively, allowin
 At higher security levels, the CSP policy restricts script sources to trusted domains only and blocks loading scripts from arbitrary internal paths. Additionally, file upload validation prevents attackers from uploading executable scripts, and path traversal protections ensure uploaded files cannot be accessed as script sources.
 
 
+### Security Level: Medium
+
+**Payload Used:** `/../hackable/uploads/csp.js`
+
+**Preparation:** First uploaded a malicious JavaScript file (`csp.js`) containing:
+```javascript
+alert('CSP Bypassed!');
+```
+
+**Result:** The script path was accepted and displayed on the page, but no JavaScript alert box appeared. The Content Security Policy at Medium security likely blocks execution of externally loaded scripts.
+
+**Screenshot:**
+![CSP Bypass - Medium Security](screenshots/csp-bypass-medium.png)
+
+**Explanation of why it worked:**
+At Low security, the CSP policy allowed loading and executing scripts from various sources including local file paths, making the uploaded JavaScript file executable.
+
+**Explanation of why it failed at higher level:**
+At Medium security, the Content Security Policy is configured to be more restrictive. While the script path may be displayed or included in the page, the CSP headers likely prevent external scripts from executing by restricting script sources to trusted domains only or by blocking inline script execution. Additionally, the browser enforces these CSP rules, blocking any JavaScript from untrusted sources regardless of whether the file path is accessible.
+
+
 -----
 
 
