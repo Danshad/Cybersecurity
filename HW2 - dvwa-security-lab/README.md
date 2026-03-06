@@ -394,5 +394,10 @@ Secure implementations validate and sanitize user inputs before using them in da
 At Low security, the application generates session IDs using a simple incrementing counter with no randomness or complexity. An attacker can easily predict future session IDs and potentially hijack active user sessions by guessing valid IDs. This lack of entropy makes session fixation and session prediction attacks trivial.
 
 **Explanation of why it failed at higher level:**
-*[To be filled after testing Medium and High security levels]*
+At higher security levels, session IDs are generated using strong cryptographic randomness rather than simple sequential numbers. This makes them unpredictable and resistant to session hijacking, brute-forcing, or session fixation attacks.
+
+
+---
+
+
 
