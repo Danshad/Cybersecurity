@@ -747,6 +747,10 @@ document.forms[0].submit();
 **Explanation of why it worked:**
 At Low security, the application relied on simple client-side JavaScript that could be easily manipulated. At Medium security, the application introduced token generation logic that reverses a string composed of "XX" + phrase + "XX". By analyzing the JavaScript source code, we can understand this algorithm and generate the correct token programmatically in the console before submitting the form.
 
+**Explanation of why it failed at higher level:**
+At higher security levels, token generation and validation are performed server-side rather than client-side. Even if an attacker analyzes the JavaScript and generates what appears to be a correct token, the server uses its own secure algorithm to validate the submission independently. Additionally, tokens may be time-limited, tied to the user session, or include cryptographic elements that cannot be replicated client-side, preventing this type of bypass attack.
+
+
 
 ----------
 
