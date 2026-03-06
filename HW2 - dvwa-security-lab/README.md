@@ -32,7 +32,7 @@ At higher security levels, the application implements protections such as accoun
 6. `1 OR 1=1`
 7. `' UNION SELECT 1,2#`
 
-**Result:** Failed - All SQL injection attempts returned "Username and/or password incorrect." The application successfully blocked SQL injection attacks at Medium security.
+**Result:** All SQL injection attempts returned "Username and/or password incorrect." The application successfully blocked SQL injection attacks at Medium security.
 
 **Screenshot:**
 ![Brute Force - Medium Security](screenshots/brute-force-medium.png)
@@ -56,7 +56,7 @@ At Medium security, the application implements input validation and likely uses 
 6. `' UNION SELECT user, password FROM users#`
 7. `admin' AND SLEEP(5)-- `
 
-**Result:** Failed - All SQL injection attempts returned "Username and/or password incorrect." No payloads succeeded, and no time delays were observed with the SLEEP payload.
+**Result:** All SQL injection attempts returned "Username and/or password incorrect." No payloads succeeded, and no time delays were observed with the SLEEP payload.
 
 **Screenshot:**
 ![Brute Force - High Security](screenshots/brute-force-high.png)
