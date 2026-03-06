@@ -44,7 +44,32 @@ At Low security, the application was vulnerable to SQL injection and allowed log
 At Medium security, the application implements input validation and likely uses parameterized queries or escaping functions like `mysqli_real_escape_string()` to prevent SQL injection. User input is sanitized before being used in database queries, treating it as data rather than executable code. This blocks all SQL injection attempts, even though other brute force protections may still be minimal.
 
 
---
+### Security Level: High
+
+**Payload Used:** Multiple SQL injection payloads were tested:
+
+1. `admin' OR '1'='1`
+2. `admin' -- `
+3. `' OR '1'='1`
+4. `admin" OR "1"="1`
+5. `1 OR 1=1`
+6. `' UNION SELECT user, password FROM users#`
+7. `admin' AND SLEEP(5)-- `
+
+**Result:** Failed - All SQL injection attempts returned "Username and/or password incorrect." No payloads succeeded, and no time delays were observed with the SLEEP payload.
+
+**Screenshot:**
+![Brute Force - High Security](screenshots/brute-force-high.png)
+
+**Explanation of why it worked:**
+At Low security, the application was vulnerable to SQL injection. At Medium security, basic input filtering blocked some but not all injection attempts.
+
+**Explanation of why it failed at higher level:**
+At High security, the application uses prepared statements (parameterized queries) which completely separate SQL logic from user data. User input is treated as data only, not executable code, making SQL injection impossible regardless of the payload. The SLEEP payload also failed because the parameterized query prevents any SQL commands from being interpreted, blocking both boolean-based and time-based blind injection techniques.
+
+
+
+----
 
 -------------
 
