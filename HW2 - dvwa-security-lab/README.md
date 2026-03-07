@@ -1007,7 +1007,7 @@ drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 vulnerabilities
 ```
 
 
-### Analysis Questions
+## Analysis Questions
 
 #### Where are application files stored?
 The DVWA application files are stored in `/var/www/html/` inside the container. This directory contains all PHP files, configuration files, documentation, and subdirectories for each vulnerability module.
@@ -1026,6 +1026,10 @@ Docker provides isolation through:
 - **Process isolation**: Processes run in separate namespaces and host processes
 - **Resource constraints**: Restricted access to sensitive host directories
 - **Hostname isolation**: Container has its own hostname independent from the host
+
+----------------
+
+->
 
 
 
