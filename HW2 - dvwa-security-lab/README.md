@@ -894,6 +894,120 @@ At higher security levels, token generation and validation are performed server-
 
 ### Docker Commands and Outputs
 
+# Docker Commands and Outputs
+
+## `docker ps`
+
+```bash
+$ docker ps
+CONTAINER ID   IMAGE                  COMMAND      CREATED        STATUS              PORTS                                     NAMES
+b9c9f7e888c0   vulnerables/web-dvwa   "/main.sh"   46 hours ago   Up About a minute   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   dvwa
+```
+
+---
+
+## `docker inspect dvwa` (abbreviated)
+
+```bash
+$ docker inspect dvwa
+```
+
+```json
+[
+    {
+        "Id": "b9c9f7e888c07e5c65406adfb94e8e88c5928b67d70ac7c686f1f7c3bc5507b5",
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "StartedAt": "2026-03-07T11:23:08.119902422Z"
+        },
+        "NetworkSettings": {
+            "Ports": {
+                "80/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "8080"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "8080"
+                    }
+                ]
+            },
+            "Networks": {
+                "bridge": {
+                    "IPAddress": "172.17.0.2",
+                    "Gateway": "172.17.0.1"
+                }
+            }
+        }
+    }
+]
+```
+
+---
+
+## `docker logs dvwa`
+
+```bash
+$ docker logs dvwa
+[+] Starting mysql...
+Starting MariaDB database server: mysqld ..
+[+] Starting apache
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 172.17.0.2. Set the 'ServerName' directive globally to suppress this message
+Starting Apache httpd web server: apache2.
+
+==> /var/log/apache2/access.log <==
+172.17.0.1 - - [05/Mar/2026:13:15:45 +0000] "GET / HTTP/1.1" 302 479 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+172.17.0.1 - - [05/Mar/2026:13:15:45 +0000] "GET /login.php HTTP/1.1" 200 1048 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+172.17.0.1 - - [05/Mar/2026:13:16:17 +0000] "GET /setup.php HTTP/1.1" 200 2002 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+172.17.0.1 - - [05/Mar/2026:13:16:30 +0000] "POST /setup.php HTTP/1.1" 302 338 "http://localhost:8080/setup.php" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 Edg/145.0.0.0"
+```
+
+---
+
+## `docker exec -it dvwa /bin/bash`
+
+```bash
+$ docker exec -it dvwa /bin/bash
+root@b9c9f7e888c0:/#
+```
+
+---
+
+## Inside container – `ls /var/www/html`
+
+```bash
+root@b9c9f7e888c0:/# ls -la /var/www/html/
+
+total 172
+drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 .
+drwxr-xr-x 1 root     root      4096 Oct 12  2018 ..
+-rw-r--r-- 1 www-data www-data    57 Oct 12  2018 .gitignore
+-rw-r--r-- 1 www-data www-data   500 Oct 12  2018 .htaccess
+-rw-r--r-- 1 www-data www-data  7296 Oct 12  2018 CHANGELOG.md
+-rw-r--r-- 1 www-data www-data 33107 Oct 12  2018 COPYING.txt
+-rw-r--r-- 1 www-data www-data  9180 Oct 12  2018 README.md
+-rw-r--r-- 1 www-data www-data  3798 Oct 12  2018 about.php
+drwxr-xr-x 1 www-data www-data  4096 Mar  6 22:49 config
+drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 docs
+drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 dvwa
+drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 external
+-rw-r--r-- 1 www-data www-data  1406 Oct 12  2018 favicon.ico
+drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 hackable
+-rw-r--r-- 1 www-data www-data   895 Oct 12  2018 ids_log.php
+-rw-r--r-- 1 www-data www-data  4396 Oct 12  2018 index.php
+-rw-r--r-- 1 www-data www-data  1869 Oct 12  2018 instructions.php
+-rw-r--r-- 1 www-data www-data  4163 Oct 12  2018 login.php
+-rw-r--r-- 1 www-data www-data   414 Oct 12  2018 logout.php
+-rw-r--r-- 1 www-data www-data   148 Oct 12  2018 php.ini
+-rw-r--r-- 1 www-data www-data   199 Oct 12  2018 phpinfo.php
+-rw-r--r-- 1 www-data www-data    26 Oct 12  2018 robots.txt
+-rw-r--r-- 1 www-data www-data  4724 Oct 12  2018 security.php
+-rw-r--r-- 1 www-data www-data  2931 Oct 12  2018 setup.php
+drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 vulnerabilities
+```
+
 
 
 
