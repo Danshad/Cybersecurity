@@ -894,8 +894,6 @@ At higher security levels, token generation and validation are performed server-
 
 ### Docker Commands and Outputs
 
-# Docker Commands and Outputs
-
 ## `docker ps`
 
 ```bash
@@ -906,7 +904,7 @@ b9c9f7e888c0   vulnerables/web-dvwa   "/main.sh"   46 hours ago   Up About a min
 
 ---
 
-## `docker inspect dvwa` (abbreviated)
+## `docker inspect dvwa`
 
 ```bash
 $ docker inspect dvwa
@@ -1007,6 +1005,9 @@ drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 hackable
 -rw-r--r-- 1 www-data www-data  2931 Oct 12  2018 setup.php
 drwxr-xr-x 1 www-data www-data  4096 Oct 12  2018 vulnerabilities
 ```
+
+
+------
 
 
 
