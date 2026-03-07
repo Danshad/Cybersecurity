@@ -890,7 +890,7 @@ At higher security levels, token generation and validation are performed server-
 
 
 
-## Part 5: Docker Inspection
+## Docker Inspection Tasks
 
 ### Docker Commands and Outputs
 
@@ -1029,7 +1029,46 @@ Docker provides isolation through:
 
 ----------------
 
-->
+# Security Analysis Questions
+
+## Why does SQL Injection succeed at Low security?
+SQL Injection succeeds at Low security because the application directly concatenates user input into SQL queries without any validation, sanitization, or parameterization. User input is treated as executable code rather than data, allowing attackers to modify the query structure by injecting SQL syntax.
+
+## What control prevents it at High?
+At High security, the application uses parameterized queries (prepared statements) which separate SQL logic from user data. User input is treated as data only and cannot alter the query structure, making SQL injection impossible regardless of the payload.
+
+## Does HTTPS prevent these attacks? Why or why not?
+No, HTTPS does not prevent these attacks. HTTPS only encrypts data in transit between the browser and server, protecting against eavesdropping and man-in-the-middle attacks. It does not address application-layer vulnerabilities like SQL injection, XSS, or command injection, which exist in the application code itself regardless of transport encryption.
+
+## What risks exist if this application is deployed publicly?
+If deployed publicly, the risks include:
+
+- **Data breaches:** Sensitive user data (passwords, personal information) could be stolen  
+- **Server compromise:** Attackers could gain shell access via command injection or file upload  
+- **Website defacement:** Attackers could modify website content  
+- **Malware distribution:** Compromised server could be used to host and distribute malware  
+- **Botnet recruitment:** Server could become part of a botnet for DDoS attacks  
+- **Reputation damage:** Loss of customer trust and legal liability  
+- **Regulatory fines:** Violations of GDPR, HIPAA, or other data protection laws  
+
+## Map each vulnerability to its OWASP Top 10 category
+
+| Vulnerability | OWASP Top 10 2021 Category |
+|---------------|----------------------------|
+| SQL Injection | A03:2021 – Injection |
+| SQL Injection (Blind) | A03:2021 – Injection |
+| Command Injection | A03:2021 – Injection |
+| Reflected XSS | A03:2021 – Injection |
+| Stored XSS | A03:2021 – Injection |
+| DOM Based XSS | A03:2021 – Injection |
+| File Inclusion (LFI/RFI) | A01:2021 – Broken Access Control |
+| File Upload | A01:2021 – Broken Access Control |
+| CSRF | A01:2021 – Broken Access Control |
+| Brute Force | A07:2021 – Identification and Authentication Failures |
+| Weak Session IDs | A07:2021 – Identification and Authentication Failures |
+| Insecure CAPTCHA | A07:2021 – Identification and Authentication Failures |
+| CSP Bypass | A05:2021 – Security Misconfiguration |
+| JavaScript Attacks | A08:2021 – Software and Data Integrity Failures |
 
 
 
