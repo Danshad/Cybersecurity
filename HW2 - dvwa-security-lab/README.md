@@ -1053,7 +1053,7 @@ If deployed publicly, the risks include:
 
 ## Map each vulnerability to its OWASP Top 10 category
 
-| Vulnerability | OWASP Top 10 2021 Category |
+| Vulnerability | OWASP Top 10 Category |
 |---------------|----------------------------|
 | SQL Injection | A03:2021 – Injection |
 | SQL Injection (Blind) | A03:2021 – Injection |
